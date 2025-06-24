@@ -62,18 +62,21 @@ public async updateUser(body:UserUpdateDTO, id:string): Promise<UpdateResult | u
         throw ErrorManager.createSignatureError(error.message);
     }
 }
-public async deletedUser(id:string): Promise<DeleteResult | undefined>{
+public async deletedUser(id:string): Promise<DeleteResult>{
     try{
-        const user:DeleteResult = await this.userRepository.delete(id); 
-        if(user.affected ===0) {
+        const member:DeleteResult = await this.userRepository.delete(id); 
+        if(member.affected ===0) {
             throw new ErrorManager({
                 type:'BAD_REQUEST',
-                message:`no existe el elemento ${id} en el sistema`  
+                message:`no se puede borrar ${id} en el sistema`  
             })
         }
-        return user;
+        return member;
     }catch(error){
-         throw ErrorManager.createSignatureError(error.message);
+         throw new ErrorManager({
+                type:'BAD_REQUEST',
+                message:`no existe ${id} en el sistema`  
+            })
     }
 }
 }

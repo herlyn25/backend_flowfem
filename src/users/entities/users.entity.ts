@@ -1,6 +1,7 @@
 import { BaseEntity } from "../../config/base.entity";
 import { IUser } from "../../interfaces/user.interface";
-import { Column, Entity } from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
+import { MemberEntity } from "./member.entity";
 
 @Entity({name:'users'})
 export class UsersEntity extends BaseEntity implements IUser{
@@ -24,4 +25,7 @@ export class UsersEntity extends BaseEntity implements IUser{
     
     @Column()
     role: string;
+
+    @OneToMany(()=>MemberEntity, (member)=>member.user)
+    members:MemberEntity[]
 }
