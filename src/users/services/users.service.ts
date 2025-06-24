@@ -4,13 +4,14 @@ import { UsersEntity } from "../entities/users.entity";
 import { DeleteResult, Repository, UpdateResult } from "typeorm";
 import { UserDTO } from "../dto/user.dto";
 import { UserUpdateDTO } from "../dto/user.update.dto";
+import { ErrorManager } from "src/utils/error.manager";
 
 @Injectable()
 export class UsersService{
 constructor(
     @InjectRepository(UsersEntity)
     private readonly userRepository:Repository<UsersEntity>
-){  }
+){}
 
 public async createUser(body:UserDTO): Promise<UsersEntity>{
     try{
@@ -19,43 +20,60 @@ public async createUser(body:UserDTO): Promise<UsersEntity>{
         throw new Error(error);
     }
 }
-
 public async findUsers(): Promise<UsersEntity[]>{
     try{
-        return await this.userRepository.find();
+        const users:UsersEntity[] = await this.userRepository.find();
+        if(users.length===0){
+            throw new ErrorManager({
+                type:'BAD_REQUEST',
+                message:'no se encontro resultados'
+            })
+        }
+        return users;
     }catch(error){
-        throw new Error(error);
+        throw ErrorManager.createSignatureError(error.message);
     }
 }
-
 public async findUserById(id:string): Promise<UsersEntity>{
     try{
-        return await this.userRepository.createQueryBuilder('user').where({id}).getOne();
+        const user = await this.userRepository.createQueryBuilder('user').where({id}).getOne();
+        if(!user){
+            throw new ErrorManager({
+                type:'BAD_REQUEST',
+                message:'No existe ' + id + ' en la BD'
+            })
+        }
+        return user;
     }catch(error){
-        throw new Error(error);
+        throw new ErrorManager.createSignatureError(error.message);
     }
 }
-
 public async updateUser(body:UserUpdateDTO, id:string): Promise<UpdateResult | undefined>{
     try{
         const user:UpdateResult = await this.userRepository.update(id,body); 
         if(user.affected ===0) {
-            return undefined;
+            throw new ErrorManager({
+                type:'BAD_REQUEST',
+                message:`no existe el elemento ${id} en el sistema` 
+            })
         }
         return user;
     }catch(error){
-        throw new Error(error);
+        throw ErrorManager.createSignatureError(error.message);
     }
 }
-public async DeletedUser(id:string): Promise<DeleteResult | undefined>{
+public async deletedUser(id:string): Promise<DeleteResult | undefined>{
     try{
         const user:DeleteResult = await this.userRepository.delete(id); 
         if(user.affected ===0) {
-            return undefined;
+            throw new ErrorManager({
+                type:'BAD_REQUEST',
+                message:`no existe el elemento ${id} en el sistema`  
+            })
         }
         return user;
     }catch(error){
-        throw new Error(error);
+         throw ErrorManager.createSignatureError(error.message);
     }
 }
 }
