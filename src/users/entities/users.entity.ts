@@ -3,25 +3,25 @@ import { IUser } from "../../interfaces/user.interface";
 import { Column, Entity } from "typeorm";
 
 @Entity({name:'users'})
-export class Users extends BaseEntity implements IUser{
-    @Column({nullable:false})
+export class UsersEntity extends BaseEntity implements IUser{
+    @Column()
     firstName: string;
 
-    @Column({nullable:false})
+    @Column()
     lastName: string;
 
-    @Column({nullable:false})
+    @Column()
     age: number;
 
-    @Column({nullable:false , unique:true})
+    @Column({unique:true})
     email: string;
     
-    @Column({nullable:false , unique:true})
+    @Column({unique:true})
     username: string;
 
-    @Column({nullable:false})
+    @Column()
     password: string;
     
-    @Column({nullable:false})
+    @Column()
     role: string;
 }
