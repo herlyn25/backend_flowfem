@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+  nest_postgres:
+    image: postgres:17.5
+    container_name: nest_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: nestuserdb
+      POSTGRES_USER: hdj
+      POSTGRES_PASSWORD: salsam2323
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 5432:5432

@@ -7,11 +7,13 @@ import { MemberEntity } from './entities/member.entity';
 import { MemberService } from './services/member.service';
 import { MembersControllers } from './controllers/member.controllers';
 
+
 @Module({
     imports: [
         TypeOrmModule.forFeature([UsersEntity, MemberEntity])
     ],
     providers: [UsersService,MemberService],
-    controllers: [UsersController, MembersControllers]
+    controllers: [UsersController, MembersControllers],
+    exports: [UsersService, TypeOrmModule]
 })
 export class UsersModule {}
