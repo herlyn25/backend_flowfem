@@ -34,11 +34,11 @@ export class MemberService {
         }
     }
 
-    public async findByUserId(userId: string): Promise<MemberEntity[]> {
+    public async findMembersByUserId(userId: string): Promise<MemberEntity[]> {
         try{
             const users: MemberEntity[] = await this.memberRepository.find({
             where: { user: { id: userId } },
-            relations: ['user'] // opcional, si quieres incluir datos del usuario
+            //relations: ['user'] // opcional, si quieres incluir datos del usuario
             });
             if(users.length===0){
                 throw new ErrorManager({

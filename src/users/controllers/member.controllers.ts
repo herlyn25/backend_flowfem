@@ -16,7 +16,7 @@ export class MembersControllers{
     }
     @Get(':id_user')
     public async memberByIdUser(@Param('id_user') id:string){
-        return await this.memberService.findByUserId(id)
+        return await this.memberService.findMembersByUserId(id)
     }
     @Put('update/:id')
     public async updateMember(@Param('id') id:string, @Body() body:UpdateMemberDTO){
