@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { DeepPartial, DeleteResult, Repository, UpdateResult } from "typeorm";
+import { DeepPartial, DeleteResult, Repository } from "typeorm";
 import { MemberEntity } from "../entities/member.entity";
 import { MemberDTO, UpdateMemberDTO } from "../dto/member.dto";
 import { ErrorManager } from "src/utils/error.manager";
@@ -49,6 +49,21 @@ export class MemberService {
             return users;
         }catch(error){
             throw ErrorManager.createSignatureError(error.message)
+        }
+    }
+
+    public async findMemberById(id:string): Promise<MemberEntity>{
+        try{
+            const member = await this.memberRepository.createQueryBuilder('member').where({id}).getOne();
+            if(!member){
+                throw new ErrorManager({
+                    type:'FORBIDDEN',
+                    message:'No existe ' + id + ' en la BD'
+                })
+            }
+            return member;
+        }catch(error){
+            throw ErrorManager.createSignatureError(error.message);
         }
     }
         

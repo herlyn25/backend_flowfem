@@ -47,7 +47,7 @@ public async findUserById(id:string): Promise<UsersEntity>{
         }
         return user;
     }catch(error){
-        throw new ErrorManager.createSignatureError(error.message);
+        throw ErrorManager.createSignatureError(error.message);
     }
 }
 
@@ -88,10 +88,7 @@ public async deletedUser(id:string): Promise<DeleteResult>{
         }
         return member;
     }catch(error){
-         throw new ErrorManager({
-                type:'BAD_REQUEST',
-                message:`no existe ${id} en el sistema`  
-            })
+         throw ErrorManager.createSignatureError(`no existe ${id} en el sistema`)
     }
 }
 }

@@ -14,7 +14,11 @@ export class MembersControllers{
     public async membersAll(){
        return await this.memberService.findMembers();
     }
-    @Get(':id_user')
+    @Get(':id')
+    public async membersById(@Param('id') id:string){
+       return await this.memberService.findMemberById(id);
+    }
+    @Get('members/:id_user')
     public async memberByIdUser(@Param('id_user') id:string){
         return await this.memberService.findMembersByUserId(id)
     }

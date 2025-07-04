@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceConfig } from './config/data-source';
 import { AuthModule } from './auth/auth.module';
+import { BitacoraModule } from './bitacora/bitacora.module';
 
 @Module({
   imports: [
@@ -12,7 +13,7 @@ import { AuthModule } from './auth/auth.module';
     isGlobal:true
     }),
     TypeOrmModule.forRoot({...dataSourceConfig}),    
-    UsersModule, AuthModule
+    UsersModule, AuthModule, BitacoraModule
 ],
   controllers: [],
   providers: [],
