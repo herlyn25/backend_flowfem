@@ -1,20 +1,25 @@
 import { PartialType } from "@nestjs/mapped-types";
+import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsString, IsUUID } from "class-validator";
 
 export class MemberDTO{
     
+    @ApiProperty()    
     @IsNotEmpty()
     @IsString()
     firstname:string;
    
+    @ApiProperty()
     @IsNotEmpty()
     @IsString()
     lastname:string;
     
+    @ApiProperty()
     @IsNotEmpty()
     @IsString()
     photo:string;
 
+    @ApiProperty()
     @IsNotEmpty()
     @IsUUID()
     user:string
