@@ -6,20 +6,27 @@ import { UserDTO } from "../dto/user.dto";
 import { UserUpdateDTO } from "../dto/user.update.dto";
 import { ErrorManager } from "src/utils/error.manager";
 import * as bcrypt from 'bcrypt'
+import { S3Service } from "../../s3/s3.service";
 
 @Injectable()
 export class UsersService{
 constructor(
     @InjectRepository(UsersEntity)
-    private readonly userRepository:Repository<UsersEntity>
+    private readonly userRepository:Repository<UsersEntity>,
+    private readonly s3Service: S3Service, // Injecting S3Service
 ){}
 
-public async createUser(body:UserDTO): Promise<UsersEntity>{
-    try{
+public async createUser(body:UserDTO, file?:Express.Multer.File): Promise<UsersEntity>{  
+    if(file){        
+        const role = await this.s3Service.uploadFile(file);
+        body.role = role as string;
+    }   
+    try{        
         body.password= await bcrypt.hash(body.password, +process.env.HASH_SALT)
+        body.age = +body.age;
         return await this.userRepository.save(body);
     }catch(error){
-        throw new Error(error);
+        throw new ErrorManager(error);
     }
 }
 public async findUsers(): Promise<UsersEntity[]>{

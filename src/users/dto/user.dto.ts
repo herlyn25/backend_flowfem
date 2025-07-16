@@ -33,8 +33,6 @@ export class UserDTO{
     @IsString()
     password: string;
     
-    @ApiProperty()
-    @IsNotEmpty()
-    @IsString()
+    @ApiProperty()      
     role: string;
 }

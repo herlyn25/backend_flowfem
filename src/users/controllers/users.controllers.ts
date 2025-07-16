@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { UsersService } from "../services/users.service";
 import { UserDTO } from "../dto/user.dto";
 import { UserUpdateDTO } from "../dto/user.update.dto";
 import { ApiParam, ApiTags } from "@nestjs/swagger";
+import { FileInterceptor } from "@nestjs/platform-express";
 
 @ApiTags('Users')
 @Controller('users')
@@ -10,8 +11,9 @@ export class UsersController{
     constructor(private readonly userService:UsersService){}
 
     @Post('register')
-    public async registerUser(@Body() body: UserDTO){
-        return await this.userService.createUser(body)
+    @UseInterceptors(FileInterceptor('role'))
+    public async registerUser(@Body() body: UserDTO, @UploadedFile() file?: Express.Multer.File){
+        return await this.userService.createUser(body, file);
     }
     @Get('all')
     public async findAllusers(){

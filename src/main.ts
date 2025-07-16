@@ -9,7 +9,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
   app.enableCors(CORS);
-  app.useGlobalPipes(new ValidationPipe())
+  app.useGlobalPipes(new ValidationPipe({
+    transform: true,
+    whitelist: true,    
+    transformOptions: {
+      enableImplicitConversion: true,
+    },
+  }))
 
   const reflector = app.get(Reflector)
   app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector))
