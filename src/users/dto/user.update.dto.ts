@@ -28,4 +28,8 @@ export class UserUpdateDTO{
     @IsOptional()
     @IsString()
     role: string;
+
+    @IsOptional() 
+    @IsString()
+    photo: string;
 }

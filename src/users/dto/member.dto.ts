@@ -14,8 +14,7 @@ export class MemberDTO{
     @IsString()
     lastname:string;
     
-    @ApiProperty()
-    @IsNotEmpty()
+    @ApiProperty()  
     @IsString()
     photo:string;
 

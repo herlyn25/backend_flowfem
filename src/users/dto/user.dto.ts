@@ -37,4 +37,8 @@ export class UserDTO{
     @IsNotEmpty()
     @IsString()
     role: string;
+
+    @ApiProperty()  
+    @IsString()
+    photo: string;
 }

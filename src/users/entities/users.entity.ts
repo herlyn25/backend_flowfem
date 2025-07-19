@@ -28,6 +28,9 @@ export class UsersEntity extends BaseEntity implements IUser{
     @Column()
     role: string;
 
+    @Column({nullable:true})
+    photo: string;
+
     @OneToMany(()=>MemberEntity, (member)=>member.user)
     members:MemberEntity[]
 }
