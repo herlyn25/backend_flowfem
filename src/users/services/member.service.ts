@@ -38,7 +38,7 @@ export class MemberService {
         try{
             const users: MemberEntity[] = await this.memberRepository.find({
             where: { user: { id: userId } },
-            //relations: ['user'] // opcional, si quieres incluir datos del usuario
+            relations: ['user'] // opcional, si quieres incluir datos del usuario
             });
             if(users.length===0){
                 throw new ErrorManager({

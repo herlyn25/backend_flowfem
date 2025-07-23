@@ -1,4 +1,4 @@
-import { IsEnum, IsEmpty, IsOptional, IsString } from "class-validator";
+import { IsEnum, IsEmpty, IsOptional, IsString, IsDateString } from "class-validator";
 import { CATEGORY, STATUSEVENTS } from "../../constants/status_events";
 import { MemberDTO } from "../../users/dto/member.dto";
 
@@ -14,6 +14,10 @@ export class EventsUpdateDTO {
     @IsEmpty()
     @IsString()
     min: string;    
+
+    @IsEmpty()
+    @IsDateString()
+    fecha: string; 
     
     @IsEmpty()
     @IsEnum(CATEGORY)

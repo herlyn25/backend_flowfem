@@ -32,4 +32,8 @@ export class UserUpdateDTO{
     @IsOptional() 
     @IsString()
     photo: string;
+
+    @IsString()
+    @IsOptional()
+    gender: string;
 }

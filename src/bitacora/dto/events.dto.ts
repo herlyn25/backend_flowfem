@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsDateString, IsEmpty, IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
 import { CATEGORY, STATUSEVENTS } from "../../constants/status_events";
 import { MemberDTO } from "../../users/dto/member.dto";
 import { ApiProperty } from "@nestjs/swagger";
@@ -9,16 +9,23 @@ export class EventsDTO {
     @IsNotEmpty()
     @IsString()
     description:string;  
-   
+    
+    @ApiProperty()
+    @IsEmpty()
+    @IsDateString()
+    fecha: string; 
+    
     @ApiProperty()
     @IsNotEmpty()
     @IsString()
     hora: string;   
     
+  
+    
     @ApiProperty()
     @IsNotEmpty()
     @IsString()
-    min: string;    
+    min: string; 
     
     @ApiProperty()
     @IsNotEmpty()

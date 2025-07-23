@@ -27,7 +27,7 @@ export class MembersControllers{
     }
 
     @ApiParam({name:'id_user'}) 
-    @Get('members/:id_user')
+    @Get('user/:id_user')
     public async memberByIdUser(@Param('id_user') id:string){
         return await this.memberService.findMembersByUserId(id)
     }

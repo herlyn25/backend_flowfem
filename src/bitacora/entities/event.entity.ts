@@ -14,6 +14,9 @@ export class EventsEntity extends BaseEntity{
     
     @Column()
     min: string;
+
+    @Column({type:'date', nullable:true})
+    fecha: string;
     
     @Column({type:'enum', enum:CATEGORY})
     category: CATEGORY;

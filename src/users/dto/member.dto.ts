@@ -18,6 +18,10 @@ export class MemberDTO{
     @IsString()
     photo:string;
 
+    @IsString()
+    @ApiProperty()    
+    gender: string;
+
     @ApiProperty()
     @IsNotEmpty()
     @IsUUID()
