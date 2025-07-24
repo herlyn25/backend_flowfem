@@ -1,7 +1,7 @@
-import { IsDateString, IsEmpty, IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsDateString, IsEmpty, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from "class-validator";
 import { CATEGORY, STATUSEVENTS } from "../../constants/status_events";
 import { MemberDTO } from "../../users/dto/member.dto";
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, PartialType } from "@nestjs/swagger";
 
 export class EventsDTO {
    
@@ -11,17 +11,15 @@ export class EventsDTO {
     description:string;  
     
     @ApiProperty()
-    @IsEmpty()
+    @IsOptional()
     @IsDateString()
-    fecha: string; 
+    fecha?: string; 
     
     @ApiProperty()
     @IsNotEmpty()
     @IsString()
-    hora: string;   
-    
-  
-    
+    hora: string;       
+     
     @ApiProperty()
     @IsNotEmpty()
     @IsString()
@@ -38,6 +36,10 @@ export class EventsDTO {
     status: STATUSEVENTS
 
     @ApiProperty()
-    @IsOptional()
-    member: MemberDTO
+    @IsNotEmpty()
+    @IsUUID()
+    member: string
+}
+
+export class EventsUpdateDTO2 extends PartialType(EventsDTO) { 
 }
