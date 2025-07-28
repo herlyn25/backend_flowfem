@@ -2,12 +2,14 @@ import { BadRequestException, Body, Controller, Delete, Post, UploadedFile, UseI
 import { S3Service } from '../service/s3.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { S3DTO, S3UpdateDTO } from '../dto/s3.dto';
+import { ApiParam, ApiTags } from '@nestjs/swagger';
 
-
+@ApiTags('S3')
 @Controller('s3')
 export class S3Controller {
     constructor(private readonly s3Service: S3Service) {}
 
+    @ApiParam({ name: 'photo', required: true })
     @Post('upload')
     @UseInterceptors(FileInterceptor('photo'))
     async uploadFile(@UploadedFile() file: Express.Multer.File) {
@@ -24,6 +26,7 @@ export class S3Controller {
             }        
     }
 
+    @ApiParam({ name: 'photo', required: true })
     @Delete('delete')
     async deleteFile(@Body() body: S3DTO): Promise<string> {
         const {photo} = body;
@@ -39,6 +42,8 @@ export class S3Controller {
         }
     }
 
+    @ApiParam({ name: 'user', required: true })
+    @ApiParam({ name: 'file', required: true })
     @Post('update')
     @UseInterceptors(FileInterceptor('file'))
     async updateFile(@Body() body: S3UpdateDTO, @UploadedFile() file: Express.Multer.File): Promise<string> {

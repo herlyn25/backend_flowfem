@@ -14,7 +14,7 @@ export class S3Service {
             }); 
         private readonly bucketName: string = process.env.AWS_BUCKET_NAME;
     
-        async uploadFile(file: Express.Multer.File): Promise<String> {
+        async uploadFile(file: Express.Multer.File): Promise<string> {
             const fileExtension = extname(file.originalname);
             const key = `${uuidv4()}${fileExtension}`;            
             

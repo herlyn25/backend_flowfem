@@ -29,8 +29,7 @@ export class UserUpdateDTO{
     @IsString()
     role: string;
 
-    @IsOptional() 
-    @IsString()
+    @IsOptional()  
     photo: string;
 
     @IsString()
