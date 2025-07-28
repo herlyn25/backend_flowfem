@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceConfig } from './config/data-source';
 import { AuthModule } from './auth/auth.module';
 import { BitacoraModule } from './bitacora/bitacora.module';
+import { Awss3Module } from './awss3/awss3.module'; 
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { BitacoraModule } from './bitacora/bitacora.module';
     isGlobal:true
     }),
     TypeOrmModule.forRoot({...dataSourceConfig}),    
-    UsersModule, AuthModule, BitacoraModule
+    UsersModule, AuthModule, BitacoraModule, Awss3Module
 ],
   controllers: [],
   providers: [],
