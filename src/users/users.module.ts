@@ -6,14 +6,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MemberEntity } from './entities/member.entity';
 import { MemberService } from './services/member.service';
 import { MembersControllers } from './controllers/member.controllers';
-import { S3Service } from '../s3/s3.service';
+import { S3Service } from 'src/awss3/service/s3.service';
 
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([UsersEntity, MemberEntity])
     ],
-    providers: [UsersService,MemberService,S3Service],
+    providers: [UsersService,MemberService, S3Service],
     controllers: [UsersController, MembersControllers],
     exports: [UsersService, TypeOrmModule]
 })

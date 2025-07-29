@@ -4,6 +4,8 @@ import { ConfigService } from '@nestjs/config';
 import { CORS } from './constants';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { trace } from 'console';
+import { transcode } from 'buffer';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,12 +13,17 @@ async function bootstrap() {
   app.enableCors(CORS);
   app.useGlobalPipes(new ValidationPipe({
     transform: true,
-    whitelist: true,    
     transformOptions: {
-      enableImplicitConversion: true,
+      enableImplicitConversion: true,    
     },
-  }))
-
+    forbidNonWhitelisted: false,
+  }));
+  app.use((req, res, next) => {
+    if (req.method === 'OPTIONS') {
+      res.setHeader('Access-Control-Allow-Private-Network', 'true');
+    }
+    next();
+  });
   const reflector = app.get(Reflector)
   app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector))
 

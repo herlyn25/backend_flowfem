@@ -14,10 +14,13 @@ export class MemberDTO{
     @IsString()
     lastname:string;
     
-    @ApiProperty()
-    @IsNotEmpty()
+    @ApiProperty()  
     @IsString()
     photo:string;
+
+    @IsString()
+    @ApiProperty()    
+    gender: string;
 
     @ApiProperty()
     @IsNotEmpty()

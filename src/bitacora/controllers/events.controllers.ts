@@ -1,7 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { EventsService } from '../services/events.service';
-import { EventsDTO } from '../dto/events.dto';
-import { EventsUpdateDTO } from '../dto/events.update.dto';
+import { EventsDTO, EventsUpdateDTO2 } from '../dto/events.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Events')
@@ -31,8 +30,8 @@ export class EventsController {
     }
 
     @Put('update/:id')    
-    public async UpdateEvents(@Param('id') id:string, @Body() body:EventsUpdateDTO){
-        return await this.eventsService.updateEvents(id,body)
+    public async UpdateEvents(@Param('id') id:string, @Body() body:EventsUpdateDTO2){
+        return await this.eventsService.updateEvents(body, id)
     }
 
     @Delete('delete/:id')

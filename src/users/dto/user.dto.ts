@@ -35,4 +35,7 @@ export class UserDTO{
     
     @ApiProperty()      
     role: string;
+
+    @ApiProperty()    
+    photo: string;
 }

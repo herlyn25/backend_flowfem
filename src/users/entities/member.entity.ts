@@ -12,6 +12,9 @@ firstname:string;
 @Column()
 lastname:string;
 
+@Column({nullable:true})
+gender: string;
+
 @Column()
 photo:string;
 

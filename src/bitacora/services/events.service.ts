@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EventsEntity } from '../entities/event.entity';
-import { DeleteResult, Repository } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { MemberService } from '../../users/services/member.service';
-import { EventsDTO } from '../dto/events.dto';
 import { ErrorManager } from '../../utils/error.manager';
+import { EventsDTO, EventsUpdateDTO2 } from '../dto/events.dto';
 import { EventsUpdateDTO } from '../dto/events.update.dto';
-
 @Injectable()
 export class EventsService {
     constructor(
@@ -43,7 +42,7 @@ export class EventsService {
         try{
             const events: EventsEntity[] = await this.eventsRepository.find({
             where: { member: { id: memberId } },
-            //relations: ['user'] // opcional, si quieres incluir datos del usuario
+            relations: ['member'] // opcional, si quieres incluir datos del usuario
             });
             if(events.length===0){
                 throw new ErrorManager({
@@ -71,17 +70,18 @@ export class EventsService {
             throw ErrorManager.createSignatureError(error.message);
         }
     }
-    public async updateEvents(id:string, body:EventsUpdateDTO): Promise<EventsEntity | undefined>{
+    public async updateEvents(body:EventsUpdateDTO2,id:string): Promise<EventsEntity | undefined>{
         try{
-            const events =await this.eventsRepository.findOne({where:{id}}); 
+            const events = await this.eventsRepository.findOne({where:{id}}); 
              if (!events){
                 throw new ErrorManager({
                     type:'BAD_REQUEST',
-                    message:'No se ha podido actualizar ningun registro'
+                    message:`No se ha podido actualizar el evento con id ${id}`
                 })
             }
-            const update_events = Object.assign(events,body)
-            return await this.eventsRepository.save(update_events)           
+            const updatedEvents = Object.assign(events, body);
+            return await this.eventsRepository.save(updatedEvents);       
+                     
         }catch(error){
             throw ErrorManager.createSignatureError(error.message);
         }
