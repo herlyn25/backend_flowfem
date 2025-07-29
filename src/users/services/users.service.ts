@@ -20,9 +20,10 @@ public async createUser(body:UserDTO, file?:Express.Multer.File): Promise<UsersE
     try{
         body.photo = file ? await this.s3Service.uploadFile(file) : '';
         body.password= await bcrypt.hash(body.password, +process.env.HASH_SALT)
+        body.age = +body.age;
         return await this.userRepository.save(body);
     }catch(error){
-        throw new Error(error);
+        throw new ErrorManager(error);
     }
 }
 public async findUsers(): Promise<UsersEntity[]>{
