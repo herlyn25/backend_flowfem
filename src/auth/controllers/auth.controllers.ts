@@ -13,7 +13,7 @@ export class AuthControllers {
     async login(@Body() {username,password}: AuthDTO){
         const uservalidate = await this.authService.validateUser(username,password);
         const token = await this.authService.generateJWT(uservalidate);
-        if(!uservalidate) throw new UnauthorizedException("data no valid");
+        if(uservalidate===null) throw new UnauthorizedException("data not valid");
         return {
             "token": token.accessToken,
             "user": uservalidate

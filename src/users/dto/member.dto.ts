@@ -14,8 +14,7 @@ export class MemberDTO{
     @IsString()
     lastname:string;
     
-    @ApiProperty()  
-    @IsString()
+    @ApiProperty()
     photo:string;
 
     @IsString()

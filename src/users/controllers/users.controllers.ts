@@ -11,7 +11,7 @@ import { FileInterceptor } from "@nestjs/platform-express";
 export class UsersController{
     constructor(private readonly userService:UsersService){}
 
-    @ApiParam({name:'file', required: true , type: File})
+    @ApiParam({name:'file', required: true })
     @UseInterceptors(FileInterceptor('photo'))
     @Post('register')
     public async registerUser(@Body() body: UserDTO, @UploadedFile() file?: Express.Multer.File){
@@ -34,7 +34,7 @@ export class UsersController{
     }
 
     @ApiParam({name:'id_user'}) 
-    @ApiParam({name:'file', required: true , type: File}) 
+    @ApiParam({name:'file', required: true }) 
     @Put('edit/:id/photo')
     @UseInterceptors(FileInterceptor('file'))
     public async updateUserPhoto(@Param('id') id:string, @UploadedFile() file: Express.Multer.File){

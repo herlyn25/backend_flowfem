@@ -29,12 +29,14 @@ export class S3Service {
         }
     
         async deleteFile(fileUrl: string): Promise<void> {
-            const key = fileUrl.split('/').pop();
-    
-            await this.s3.send(new DeleteObjectCommand({
+            if(fileUrl!==''){
+                const key = fileUrl.split('/').pop();    
+                await this.s3.send(new DeleteObjectCommand({
                 Bucket: this.bucketName,
                 Key: key,
             }));
+            }
+            
         }
         async updateFile( oldKey: string, newFile: Express.Multer.File): Promise<string> {
             // 1. Eliminar archivo anterior

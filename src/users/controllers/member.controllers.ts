@@ -1,19 +1,26 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
-import { MemberDTO, UpdateMemberDTO } from "../dto/member.dto";
+import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { MemberService } from "../services/member.service";
+import { MemberDTO, UpdateMemberDTO } from "../dto/member.dto";
+import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiParam, ApiTags } from "@nestjs/swagger";
 
 @ApiTags('Members')
 @Controller("members")
-export class MembersControllers{
-    constructor (private readonly memberService:MemberService){}
-    
+export class MemberControllers{
+    constructor(private readonly memberService:MemberService){}
+
+    @UseInterceptors(FileInterceptor('file'))
     @Post('register')
-    public async registerMember(@Body() body:MemberDTO){
-        const member = await this.memberService.createMember(body)     
-        return member   
+    public async registerMemberTCo(@Body() body:MemberDTO, @UploadedFile() file:Express.Multer.File){        
+        return await this.memberService.createMember(body, file)
     }
-    
+
+    @UseInterceptors(FileInterceptor('file'))
+    @Post('edit/:id/photo')
+    public async updatePhoto(@Param() id:string, @UploadedFile() file:Express.Multer.File){        
+        return await this.memberService.updatePhoto(id, file)
+    }
+
     @ApiParam({name:'id'}) 
     @Get('all')
     public async membersAll(){
@@ -43,4 +50,6 @@ export class MembersControllers{
     public async deleteMember(@Param('id') id:string){
         return await this.memberService.deleteMembers(id)
     } 
+
+
 }

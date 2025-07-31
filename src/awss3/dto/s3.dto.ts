@@ -9,6 +9,6 @@ export class S3DTO{
 }
 
 export class S3UpdateDTO extends S3DTO {   
-     @ApiProperty({name: 'newPhoto', type: File, required: true})
+     @ApiProperty({name: 'newPhoto', required: true})
     newPhoto: string;
 }
