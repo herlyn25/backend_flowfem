@@ -8,9 +8,9 @@ import { ApiTags } from '@nestjs/swagger';
 export class EventsController {
     constructor(private readonly eventsService:EventsService){}
 
-    @Post('register/:id_member')
+    @Post('register')
     public async createEvent(@Body() body:EventsDTO, @Param('id_member') id_member:string){
-        const events = await this.eventsService.createEvents(body,id_member)
+        const events = await this.eventsService.createEvents(body)
         return events
     }
     
@@ -19,7 +19,7 @@ export class EventsController {
         return await this.eventsService.allEvents()
     }
 
-    @Get('events/:id')
+    @Get('member/:id')
     public async EventsByIdMember(@Param('id') id:string){
         return await this.eventsService.findEventsByMembersId(id)
     }

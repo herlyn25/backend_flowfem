@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EventsEntity } from '../entities/event.entity';
-import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+import { DeepPartial, DeleteResult, Repository } from 'typeorm';
 import { MemberService } from '../../users/services/member.service';
 import { ErrorManager } from '../../utils/error.manager';
 import { EventsDTO, EventsUpdateDTO2 } from '../dto/events.dto';
-import { EventsUpdateDTO } from '../dto/events.update.dto';
+import { MemberEntity } from '../../users/entities/member.entity';
+
 @Injectable()
 export class EventsService {
     constructor(
@@ -14,14 +15,15 @@ export class EventsService {
         private readonly memberService:MemberService
     ){}
     
-    public async createEvents(body:EventsDTO, idMember:string):Promise<EventsEntity>{
+    public async createEvents(body:EventsDTO):Promise<EventsEntity>{
         try{
-            const member = await this.memberService.findMemberById(idMember)
-            console.log(member.user)
-            if(member===undefined) {
+            const memberData = await this.memberService.findMemberById(body.member) 
+                     
+            if(memberData===undefined) {
                  throw new ErrorManager({type:'NOT_FOUND', message:'No se encontro miembro'})
             }
-            return await this.eventsRepository.save({...body, member})
+            body.member =  memberData.id;
+            return await this.eventsRepository.save(body as DeepPartial<MemberEntity>)
         }catch(error){
             throw ErrorManager.createSignatureError(error.message)
         }

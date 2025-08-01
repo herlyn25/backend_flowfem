@@ -1,6 +1,5 @@
 import { IsDateString, IsEmpty, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from "class-validator";
 import { CATEGORY, STATUSEVENTS } from "../../constants/status_events";
-import { MemberDTO } from "../../users/dto/member.dto";
 import { ApiProperty, PartialType } from "@nestjs/swagger";
 
 export class EventsDTO {

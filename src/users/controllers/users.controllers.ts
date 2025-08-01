@@ -12,7 +12,7 @@ export class UsersController{
     constructor(private readonly userService:UsersService){}
 
     @ApiParam({name:'file', required: true })
-    @UseInterceptors(FileInterceptor('photo'))
+    @UseInterceptors(FileInterceptor('file'))
     @Post('register')
     public async registerUser(@Body() body: UserDTO, @UploadedFile() file?: Express.Multer.File){
         return await this.userService.createUser(body,file)
