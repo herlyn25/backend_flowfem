@@ -18,9 +18,10 @@ export const dataSourceConfig: DataSourceOptions = {
     entities:[__dirname+'/../**/*.entity{.ts,.js}'],
     migrations:[__dirname+'/../migration/*{.ts,.js}'],
     synchronize: false,
-    ssl: {
+    ssl: false 
+    /* { # para cuando se usa certificado SSL
         rejectUnauthorized: false
-    },
+    }*/,
     namingStrategy: new SnakeNamingStrategy(),
 }
 export const appDS = new DataSource(dataSourceConfig);
