@@ -44,7 +44,7 @@ export class EventsService {
         try{
             const events: EventsEntity[] = await this.eventsRepository.find({
             where: { member: { id: memberId } },
-            relations: ['member'] // opcional, si quieres incluir datos del usuario
+            //relations: ['member'] // opcional, si quieres incluir datos del usuario
             });
             if(events.length===0){
                 throw new ErrorManager({
